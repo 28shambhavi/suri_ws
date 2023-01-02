@@ -1,7 +1,6 @@
 import numpy as np
 import math
 import matplotlib.pyplot as plt
-import yaml
 
 class Data_idx:
     t_ = np.linspace(0,4,101)
@@ -43,7 +42,9 @@ def main():
         data_t_idx.append(Data_idx(u_init[t_idx], t_idx, t_[t_idx]))
     
     for d in data_t_idx:
-        d.v = [d.x[1],-d.u_init*math.cos(d.x[0])/a-gc*math.sin(d.x[0])-b*d.x[1]]
+        # state and state derivative
+        d.v = [x[1],-d.u_init*math.cos(x[0])/a-gc*math.sin(x[0])-b*x[1]]
+        #d.v = [d.x[1],-d.u_init*math.cos(d.x[0])/a-gc*math.sin(d.x[0])-b*d.x[1]]
         x1 = np.dot(d.v,dt) + d.x
 
     plt.show()

@@ -9,7 +9,7 @@ def g_dot(t_idx, u, x, a, b, g):
     df_dx = [[0, u*math.sin(x[0])/a -gc*math.cos(x[0])],[1, -b]]
     df_dp = [[0,2*u*math.cos(x[0])/a**2], [0,-x[1]]]
     [g]=g
-    g_dot_ = np.dot(df_dx,g) + df_dp
+    g_dot_ = np.matmul(df_dx,g) + df_dp
     # g[t_idx+1] = np.dot(g_dot_, dt) + g[t_idx]
     return g_dot_
 
@@ -79,13 +79,11 @@ def main():
         state.append(np.array(model_dyn(t_[t_idx], u_orig[t_idx],np.array(state)[t_idx,:],init_a,init_b)))
         obs_state.append(np.array(model_dyn(t_[t_idx], u_orig[t_idx],np.array(obs_state)[t_idx,:]+np.random.normal(0, .004, 2),a,b)))
         
-        
         #state_hessian=hessian(np.array(obs_state)[t_idx,:], np.array(state)[t_idx,:], t_idx, a,b)
     #g_dot(t_idx, u, t_, x, a, b)
     #x_state = np.array(state)[:,0]
     print(time.time())
     fig, (ax1, ax2) = plt.subplots(2)
-    
     fig.tight_layout(pad=3)
     ax1.plot(t_, np.array(state)[:,0])
     ax1.plot(t_,np.array(obs_state)[:,0])
@@ -103,9 +101,6 @@ def main():
     # plt.ylabel('Control Input (acc in m/s^2)')
     plt.show()
 main()
-
-
-
 
 # def lp(obs_x, x):
 #     global qp
